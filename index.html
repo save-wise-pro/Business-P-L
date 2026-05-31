@@ -775,6 +775,175 @@ body{
 .svh-chart{display:flex;align-items:flex-end;gap:5px;height:100px;}
 .svh-col{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:0;}
 /* ══════════════════════════════════════════
+   MOBILE BOTTOM BAR
+══════════════════════════════════════════ */
+.mobile-bottom-bar{
+  display:none; /* hidden on desktop */
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:64px;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  box-shadow:0 -4px 20px rgba(30,40,80,.10);
+  z-index:200;
+  padding:0 4px;
+  padding-bottom:env(safe-area-inset-bottom);
+  align-items:center;
+  justify-content:space-around;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+
+/* Show on mobile only */
+@media(max-width:767px){
+  .mobile-bottom-bar{display:flex;}
+  /* push page content above bottom bar */
+  .pg,.analytics-page,.inv-page,.purchase-page,
+  .entries-page,.settings-page{padding-bottom:80px;}
+  /* hide desktop hamburger on mobile */
+  .hamburger{display:none;}
+  /* hide desktop nav tabs on mobile, keep brand + theme */
+  .nav-tab{display:none;}
+  .nav{height:50px;padding:0 14px;gap:8px;}
+}
+
+/* Bottom bar buttons */
+.bb-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;flex:1;
+  background:none;border:none;cursor:pointer;
+  padding:8px 4px 6px;border-radius:12px;
+  transition:all var(--trans);
+  color:var(--text3);
+  position:relative;overflow:hidden;
+  min-height:52px;
+}
+.bb-btn:active{transform:scale(.9);}
+.bb-btn.active{color:var(--accent);}
+.bb-btn.active .bb-icon{
+  background:var(--accent-light);
+  color:var(--accent);
+}
+.bb-btn::after{
+  content:'';position:absolute;
+  width:200%;padding-top:200%;border-radius:50%;
+  background:var(--ripple);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0);opacity:0;pointer-events:none;
+}
+.bb-btn:active::after{
+  transform:translate(-50%,-50%) scale(1);opacity:1;
+  transition:transform .15s,opacity .05s;
+}
+
+.bb-icon{
+  width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;
+  transition:all var(--trans);
+  background:transparent;
+  color:inherit;
+}
+.bb-label{
+  font-size:10px;font-weight:500;
+  font-family:'Geist',sans-serif;
+  letter-spacing:.2px;
+  color:inherit;
+}
+
+/* FAB — centre add button */
+.bb-fab{
+  display:flex;align-items:center;justify-content:center;
+  width:52px;height:52px;flex-shrink:0;
+  border-radius:16px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent2),var(--accent));
+  color:#fff;
+  box-shadow:0 3px 0 var(--accent2),0 6px 20px var(--accent-glow);
+  transition:all var(--trans);
+  position:relative;overflow:hidden;
+  /* lift it above the bar */
+  margin-top:-18px;
+}
+.bb-fab:hover{transform:translateY(-2px);box-shadow:0 5px 0 var(--accent2),0 8px 24px var(--accent-glow);}
+.bb-fab:active{transform:translateY(1px) scale(.95);box-shadow:0 2px 0 var(--accent2),0 4px 12px var(--accent-glow);}
+.bb-fab::after{
+  content:'';position:absolute;
+  width:200%;padding-top:200%;border-radius:50%;
+  background:rgba(255,255,255,.25);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0);opacity:0;pointer-events:none;
+}
+.bb-fab:active::after{transform:translate(-50%,-50%) scale(1);opacity:1;transition:transform .2s,opacity .05s;}
+.bb-fab-icon{
+  font-size:26px;font-weight:300;line-height:1;
+  transition:transform var(--trans);
+}
+.bb-fab:hover .bb-fab-icon{transform:rotate(90deg);}
+
+/* ══════════════════════════════════════════
+   MANAGE PAGE
+══════════════════════════════════════════ */
+.manage-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:4px;
+}
+.manage-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px 14px;
+  display:flex;flex-direction:column;
+  align-items:flex-start;gap:8px;
+  cursor:pointer;
+  transition:all var(--trans);
+  box-shadow:0 1px 0 var(--border),0 2px 8px var(--shadow);
+  text-align:left;
+  position:relative;overflow:hidden;
+  min-height:100px;
+}
+.manage-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px var(--shadow);border-color:var(--border2);}
+.manage-card:active{transform:scale(.97);}
+/* ripple */
+.manage-card::after{
+  content:'';position:absolute;
+  width:200%;padding-top:200%;border-radius:50%;
+  background:var(--ripple);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0);opacity:0;pointer-events:none;
+}
+.manage-card:active::after{transform:translate(-50%,-50%) scale(1);opacity:1;transition:transform .2s,opacity .05s;}
+
+.mc-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:700;flex-shrink:0;
+  font-family:'Geist Mono',monospace;
+}
+.mc-green{background:var(--green-bg);color:var(--green);}
+.mc-blue{background:var(--blue-bg);color:var(--blue);}
+.mc-purple{background:var(--purple-bg);color:var(--purple);}
+.mc-teal{background:var(--teal-bg);color:var(--teal);}
+.mc-orange{background:var(--orange-bg);color:var(--orange);}
+.mc-red{background:var(--red-bg);color:var(--red);}
+.mc-accent{background:var(--accent-light);color:var(--accent);}
+.mc-name{
+  font-size:13px;font-weight:600;color:var(--text);
+  font-family:'Geist',sans-serif;line-height:1.2;
+}
+.mc-desc{
+  font-size:10px;color:var(--text3);
+  font-family:'Geist',sans-serif;line-height:1.4;
+}
+
+/* Dark mode bottom bar */
+body.dark .mobile-bottom-bar{
+  background:rgba(22,28,46,.96);
+  border-color:var(--border);
+}
+
+/* ══════════════════════════════════════════
    SIDEBAR NAVIGATION
 ══════════════════════════════════════════ */
 
@@ -2427,6 +2596,58 @@ body.dark .hero-amount.positive{color:var(--accent);}
 </div>
 </div>
 
+<!-- ═══════════════ MANAGE ═══════════════ -->
+<div class="page" id="page-manage">
+<div class="pg">
+  <div class="pg-head">
+    <h2>Manage</h2>
+    <p>All tools & features</p>
+  </div>
+  <div class="manage-grid">
+    <button class="manage-card" onclick="showPage('analytics')">
+      <div class="mc-icon mc-green">↑</div>
+      <div class="mc-name">Analytics</div>
+      <div class="mc-desc">Trends & insights</div>
+    </button>
+    <button class="manage-card" onclick="showPage('financial')">
+      <div class="mc-icon mc-blue">₹</div>
+      <div class="mc-name">Finance</div>
+      <div class="mc-desc">P&L summary</div>
+    </button>
+    <button class="manage-card" onclick="showPage('remittance')">
+      <div class="mc-icon mc-purple">⟳</div>
+      <div class="mc-name">COD Remittance</div>
+      <div class="mc-desc">Track settlements</div>
+    </button>
+    <button class="manage-card" onclick="showPage('entries')">
+      <div class="mc-icon mc-teal">☰</div>
+      <div class="mc-name">Entries</div>
+      <div class="mc-desc">Income & expenses</div>
+    </button>
+    <button class="manage-card" onclick="showPage('inventory')">
+      <div class="mc-icon mc-orange">▦</div>
+      <div class="mc-name">Inventory</div>
+      <div class="mc-desc">Stock & products</div>
+    </button>
+    <button class="manage-card" onclick="showPage('purchase')">
+      <div class="mc-icon mc-red">↓</div>
+      <div class="mc-name">Purchase</div>
+      <div class="mc-desc">Supplier orders</div>
+    </button>
+    <button class="manage-card" onclick="showPage('misc')">
+      <div class="mc-icon mc-accent">±</div>
+      <div class="mc-name">Misc Entry</div>
+      <div class="mc-desc">Other transactions</div>
+    </button>
+    <button class="manage-card" onclick="showPage('remittance')">
+      <div class="mc-icon mc-blue">📋</div>
+      <div class="mc-name">COD Tracking</div>
+      <div class="mc-desc">Pending payments</div>
+    </button>
+  </div>
+</div>
+</div>
+
 <!-- ═══════════════ SETTINGS ═══════════════ -->
 <div class="page" id="page-settings">
 <div class="settings-page">
@@ -2807,6 +3028,15 @@ function showPage(id){
   if(id==='purchase'){populatePurchaseDropdowns();renderPurchaseList();}
   if(id==='analytics')renderAnalytics();
   if(id==='settings')renderSettings();
+  // hide bottom bar only on order page
+  const bottomBar=document.getElementById('mobile-bottom-bar');
+  if(bottomBar){
+    bottomBar.style.display=id==='order'?'none':'flex';
+  }
+  // sync bottom bar active
+  document.querySelectorAll('.bb-btn').forEach(b=>b.classList.remove('active'));
+  const bb=document.querySelector('.bb-btn[data-page="'+id+'"]');
+  if(bb)bb.classList.add('active');
 }
 
 // ─── HELPERS ───
@@ -4966,6 +5196,31 @@ renderPurchaseList();
     </div>
   </div>
 </div>
+
+
+<!-- MOBILE BOTTOM BAR -->
+<nav class="mobile-bottom-bar" id="mobile-bottom-bar">
+  <button class="bb-btn active" data-page="dashboard" onclick="showPage('dashboard')">
+    <span class="bb-icon">⊞</span>
+    <span class="bb-label">Dashboard</span>
+  </button>
+  <button class="bb-btn" data-page="orders" onclick="showPage('orders')">
+    <span class="bb-icon">≡</span>
+    <span class="bb-label">Orders</span>
+  </button>
+  <!-- FAB centre button -->
+  <button class="bb-fab" onclick="showPage('order')">
+    <span class="bb-fab-icon">+</span>
+  </button>
+  <button class="bb-btn" data-page="manage" onclick="showPage('manage')">
+    <span class="bb-icon">⊕</span>
+    <span class="bb-label">Manage</span>
+  </button>
+  <button class="bb-btn" data-page="settings" onclick="showPage('settings')">
+    <span class="bb-icon">⚙</span>
+    <span class="bb-label">Settings</span>
+  </button>
+</nav>
 
 </body>
 </html>
